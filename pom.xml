@@ -12,7 +12,7 @@
 	<artifactId>productms</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>productms</name>
-	<description>Project create for a technical test in order to pass for compasso uol.</description>
+	<description>Project created for a technical test in order to get an opportunity At Compasso uol.</description>
 	<properties>
 		<java.version>1.8</java.version>
 	</properties>
@@ -29,11 +29,16 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-
 		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
 			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.18.20</version>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
