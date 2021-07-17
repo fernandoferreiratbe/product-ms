@@ -1,14 +1,15 @@
 package io.github.fernandoferreira.compasso.productms.controller;
 
+import io.github.fernandoferreira.compasso.productms.controller.form.ProductForm;
 import io.github.fernandoferreira.compasso.productms.model.Product;
 import io.github.fernandoferreira.compasso.productms.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.validation.Valid;
+import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,5 +34,14 @@ public class ProductController {
         Optional<Product> optional = this.productService.findById(id);
 
         return optional.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @PostMapping
+    public ResponseEntity<Product> postProduct(@Valid @RequestBody ProductForm productForm, UriComponentsBuilder uriBuilder) {
+        Product product = this.productService.save(productForm);
+
+        URI uri = uriBuilder.path("/product/{id}").buildAndExpand(product.getId()).toUri();
+
+        return ResponseEntity.created(uri).body(product);
     }
 }
