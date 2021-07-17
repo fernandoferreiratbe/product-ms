@@ -37,7 +37,7 @@ public class ProductController {
     }
 
     @PostMapping
-    public ResponseEntity<Product> postProduct(@Valid @RequestBody ProductForm productForm, UriComponentsBuilder uriBuilder) {
+    public ResponseEntity<Product> post(@Valid @RequestBody ProductForm productForm, UriComponentsBuilder uriBuilder) {
         Product product = this.productService.save(productForm);
 
         URI uri = uriBuilder.path("/product/{id}").buildAndExpand(product.getId()).toUri();
