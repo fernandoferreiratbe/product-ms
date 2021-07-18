@@ -40,6 +40,7 @@ public class ProductController {
     }
 
     @PostMapping
+    @Transactional
     public ResponseEntity<Product> post(@Valid @RequestBody ProductForm productForm, UriComponentsBuilder uriBuilder) {
         Product product = this.productService.save(productForm);
 
