@@ -1,5 +1,6 @@
 package io.github.fernandoferreira.compasso.productms.service;
 
+import io.github.fernandoferreira.compasso.productms.config.exception.ProductNotFoundException;
 import io.github.fernandoferreira.compasso.productms.controller.form.ProductForm;
 import io.github.fernandoferreira.compasso.productms.model.Product;
 import io.github.fernandoferreira.compasso.productms.repository.ProductRepository;
@@ -31,4 +32,20 @@ public class ProductService {
         Product product = productForm.convert();
         return this.productRepository.save(product);
     }
+
+    public Product update(Long id, ProductForm productForm) {
+        Optional<Product> optional = this.productRepository.findById(id);
+
+        if (!optional.isPresent()) {
+            throw new ProductNotFoundException("Product id " + id + " not found");
+        }
+
+        Product product = optional.get();
+        product.setName(productForm.getName());
+        product.setDescription(productForm.getDescription());
+        product.setPrice(productForm.getPrice());
+
+        return product;
+    }
+
 }

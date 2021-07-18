@@ -1,13 +1,16 @@
 package io.github.fernandoferreira.compasso.productms.controller;
 
+import io.github.fernandoferreira.compasso.productms.config.exception.ProductNotFoundException;
 import io.github.fernandoferreira.compasso.productms.controller.form.ProductForm;
 import io.github.fernandoferreira.compasso.productms.model.Product;
 import io.github.fernandoferreira.compasso.productms.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
@@ -43,5 +46,15 @@ public class ProductController {
         URI uri = uriBuilder.path("/product/{id}").buildAndExpand(product.getId()).toUri();
 
         return ResponseEntity.created(uri).body(product);
+    }
+
+    @PutMapping("/{id}")
+    @Transactional
+    public ResponseEntity<Product> update(@PathVariable Long id, @Valid @RequestBody ProductForm productForm) {
+        try {
+            return ResponseEntity.ok(this.productService.update(id, productForm));
+        } catch (ProductNotFoundException exception) {
+            return ResponseEntity.notFound().build();
+        }
     }
 }
