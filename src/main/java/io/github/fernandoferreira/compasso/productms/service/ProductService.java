@@ -48,4 +48,13 @@ public class ProductService {
         return product;
     }
 
+    public void deleteById(Long id) {
+        Optional<Product> optional = this.productRepository.findById(id);
+
+        if (!optional.isPresent()) {
+            throw new ProductNotFoundException("Product id " + id + " not found");
+        }
+
+        this.productRepository.delete(optional.get());
+    }
 }

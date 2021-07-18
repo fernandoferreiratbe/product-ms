@@ -58,4 +58,15 @@ public class ProductController {
             return ResponseEntity.notFound().build();
         }
     }
+
+    @DeleteMapping("/{id}")
+    @Transactional
+    public ResponseEntity<?> delete(@PathVariable Long id) {
+        try {
+            this.productService.deleteById(id);
+            return ResponseEntity.ok().build();
+        } catch (ProductNotFoundException exception) {
+            return ResponseEntity.notFound().build();
+        }
+    }
 }
