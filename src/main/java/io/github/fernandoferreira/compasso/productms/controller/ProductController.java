@@ -39,6 +39,16 @@ public class ProductController {
         return optional.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
+    @GetMapping("/search")
+    public ResponseEntity<List<Product>> search(@RequestParam(required = false) String q, @RequestParam(required = false) String min_price,
+                                          @RequestParam(required = false) String max_price) {
+        try {
+            return ResponseEntity.ok(this.productService.findByNameOrDescription(q));
+        } catch (ProductNotFoundException exception) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
     @PostMapping
     @Transactional
     public ResponseEntity<Product> post(@Valid @RequestBody ProductForm productForm, UriComponentsBuilder uriBuilder) {

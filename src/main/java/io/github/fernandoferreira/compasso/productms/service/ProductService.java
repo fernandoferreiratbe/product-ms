@@ -28,6 +28,19 @@ public class ProductService {
         return this.productRepository.findById(id);
     }
 
+    public List<Product> findByNameOrDescription(String queryParameter) {
+        List<Product> products = this.productRepository.findByNameContainingAllIgnoreCase(queryParameter);
+
+        if (products.isEmpty()) {
+            products = this.productRepository.findByDescriptionContainingAllIgnoreCase(queryParameter);
+            if (products.isEmpty()) {
+                throw new ProductNotFoundException("No products found for " + queryParameter + " parameter");
+            }
+        }
+
+        return products;
+    }
+
     public Product save(ProductForm productForm) {
         Product product = productForm.convert();
         return this.productRepository.save(product);
