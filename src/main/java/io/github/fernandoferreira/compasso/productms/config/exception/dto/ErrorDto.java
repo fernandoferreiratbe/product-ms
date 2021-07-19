@@ -1,4 +1,4 @@
-package io.github.fernandoferreira.compasso.productms.config.exception;
+package io.github.fernandoferreira.compasso.productms.config.exception.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

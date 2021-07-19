@@ -8,13 +8,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.*;
 
-@Getter
-@Setter
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@RequiredArgsConstructor
-@ToString
-@EqualsAndHashCode
+@Builder
 @Entity
 public class Product {
 

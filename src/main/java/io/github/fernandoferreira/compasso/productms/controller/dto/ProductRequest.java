@@ -1,18 +1,20 @@
-package io.github.fernandoferreira.compasso.productms.controller.form;
+package io.github.fernandoferreira.compasso.productms.controller.dto;
 
-import io.github.fernandoferreira.compasso.productms.model.Product;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.validation.constraints.*;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProductForm {
+public class ProductRequest {
 
     @NotNull(message = "Name must not be null")
     @NotEmpty(message = "Name must not be empty")
@@ -25,9 +27,5 @@ public class ProductForm {
     @NotNull(message = "Price must not be null")
     @DecimalMin(value = "0.01", message = "Minimum price must be 0.01")
     private Double price;
-
-    public Product convert() {
-        return new Product(this.name, this.description, this.price);
-    }
 
 }

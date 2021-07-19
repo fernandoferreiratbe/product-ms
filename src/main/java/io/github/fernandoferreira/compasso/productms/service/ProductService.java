@@ -1,52 +1,52 @@
 package io.github.fernandoferreira.compasso.productms.service;
 
 import io.github.fernandoferreira.compasso.productms.config.exception.ProductNotFoundException;
-import io.github.fernandoferreira.compasso.productms.controller.form.ProductForm;
+import io.github.fernandoferreira.compasso.productms.controller.dto.ProductRequest;
 import io.github.fernandoferreira.compasso.productms.model.Product;
+import io.github.fernandoferreira.compasso.productms.repository.ProductCriteriaRepository;
 import io.github.fernandoferreira.compasso.productms.repository.ProductRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
+@RequiredArgsConstructor
+@Slf4j
 public class ProductService {
 
     private final ProductRepository productRepository;
+    private final ProductCriteriaRepository productCriteriaRepository;
 
-    @Autowired
-    public ProductService(ProductRepository productRepository) {
-        this.productRepository = productRepository;
-    }
+    public Set<Product> findAll() {
+        List<Product> products = this.productRepository.findAll();
 
-    public List<Product> findAll() {
-        return this.productRepository.findAll();
+        return new HashSet<>(products);
     }
 
     public Optional<Product> findById(Long id) {
         return this.productRepository.findById(id);
     }
 
-    public List<Product> findByNameOrDescription(String queryParameter) {
-        List<Product> products = this.productRepository.findByNameContainingAllIgnoreCase(queryParameter);
+    public Set<Product> searchBy(String nameOrDescription, Double minPrice, Double maxPrice) {
+        log.info(String.format("Searching by Name or Description: %s, Min Price: %s and Max Price: %s",
+                nameOrDescription, minPrice, maxPrice));
+
+        List<Product> products = this.productCriteriaRepository.search(nameOrDescription, minPrice, maxPrice);
 
         if (products.isEmpty()) {
-            products = this.productRepository.findByDescriptionContainingAllIgnoreCase(queryParameter);
-            if (products.isEmpty()) {
-                throw new ProductNotFoundException("No products found for " + queryParameter + " parameter");
-            }
+            throw new ProductNotFoundException("No products found for criteria.");
         }
 
-        return products;
+        return new HashSet<>(products);
     }
 
-    public Product save(ProductForm productForm) {
-        Product product = productForm.convert();
+    public Product save(Product product) {
         return this.productRepository.save(product);
     }
 
-    public Product update(Long id, ProductForm productForm) {
+    public Product update(Long id, ProductRequest productRequest) {
         Optional<Product> optional = this.productRepository.findById(id);
 
         if (!optional.isPresent()) {
@@ -54,9 +54,9 @@ public class ProductService {
         }
 
         Product product = optional.get();
-        product.setName(productForm.getName());
-        product.setDescription(productForm.getDescription());
-        product.setPrice(productForm.getPrice());
+        product.setName(productRequest.getName());
+        product.setDescription(productRequest.getDescription());
+        product.setPrice(productRequest.getPrice());
 
         return product;
     }

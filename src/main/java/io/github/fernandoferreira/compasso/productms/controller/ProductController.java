@@ -1,10 +1,12 @@
 package io.github.fernandoferreira.compasso.productms.controller;
 
 import io.github.fernandoferreira.compasso.productms.config.exception.ProductNotFoundException;
-import io.github.fernandoferreira.compasso.productms.controller.form.ProductForm;
+import io.github.fernandoferreira.compasso.productms.controller.dto.ProductRequest;
+import io.github.fernandoferreira.compasso.productms.controller.dto.ProductSearchResponse;
+import io.github.fernandoferreira.compasso.productms.converter.ProductConverter;
 import io.github.fernandoferreira.compasso.productms.model.Product;
 import io.github.fernandoferreira.compasso.productms.service.ProductService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 
 import org.springframework.web.bind.annotation.*;
@@ -13,23 +15,22 @@ import org.springframework.web.util.UriComponentsBuilder;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.net.URI;
-import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/products")
+@RequiredArgsConstructor
 public class ProductController {
 
     private final ProductService productService;
-
-    @Autowired
-    public ProductController(ProductService productService) {
-        this.productService = productService;
-    }
+    private final ProductConverter productConverter;
 
     @GetMapping
-    public ResponseEntity<List<Product>> getProducts() {
-        return ResponseEntity.ok(this.productService.findAll());
+    public ResponseEntity<ProductSearchResponse> getProducts() {
+        Set<Product> products = this.productService.findAll();
+
+        return ResponseEntity.ok(ProductSearchResponse.builder().products(products).build());
     }
 
     @GetMapping("/{id}")
@@ -40,10 +41,12 @@ public class ProductController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<List<Product>> search(@RequestParam(required = false) String q, @RequestParam(required = false) String min_price,
-                                          @RequestParam(required = false) String max_price) {
+    public ResponseEntity<ProductSearchResponse> search(@RequestParam(required = false, name = "q") String nameOrDescription,
+                                               @RequestParam(required = false, name = "min_price") Double minPrice,
+                                               @RequestParam(required = false, name = "max_price") Double maxPrice) {
         try {
-            return ResponseEntity.ok(this.productService.findByNameOrDescription(q));
+            Set<Product> products = this.productService.searchBy(nameOrDescription, minPrice, maxPrice);
+            return ResponseEntity.ok(ProductSearchResponse.builder().products(products).build());
         } catch (ProductNotFoundException exception) {
             return ResponseEntity.notFound().build();
         }
@@ -51,19 +54,20 @@ public class ProductController {
 
     @PostMapping
     @Transactional
-    public ResponseEntity<Product> post(@Valid @RequestBody ProductForm productForm, UriComponentsBuilder uriBuilder) {
-        Product product = this.productService.save(productForm);
+    public ResponseEntity<Product> post(@Valid @RequestBody ProductRequest productRequest, UriComponentsBuilder uriBuilder) {
+        Product product = this.productConverter.convert(productRequest);
+        Product productSaved = this.productService.save(product);
 
-        URI uri = uriBuilder.path("/product/{id}").buildAndExpand(product.getId()).toUri();
+        URI uri = uriBuilder.path("/product/{id}").buildAndExpand(productSaved.getId()).toUri();
 
-        return ResponseEntity.created(uri).body(product);
+        return ResponseEntity.created(uri).body(productSaved);
     }
 
     @PutMapping("/{id}")
     @Transactional
-    public ResponseEntity<Product> update(@PathVariable Long id, @Valid @RequestBody ProductForm productForm) {
+    public ResponseEntity<Product> update(@PathVariable Long id, @Valid @RequestBody ProductRequest productRequest) {
         try {
-            return ResponseEntity.ok(this.productService.update(id, productForm));
+            return ResponseEntity.ok(this.productService.update(id, productRequest));
         } catch (ProductNotFoundException exception) {
             return ResponseEntity.notFound().build();
         }
