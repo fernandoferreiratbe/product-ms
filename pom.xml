@@ -6,13 +6,13 @@
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>2.5.2</version>
-		<relativePath/> <!-- lookup parent from repository -->
+		<relativePath/>
 	</parent>
 	<groupId>io.github.fernandoferreira.compasso</groupId>
 	<artifactId>productms</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>productms</name>
-	<description>Project created for a technical test in order to get an opportunity At Compasso uol.</description>
+	<description>Project created for a technical test in order to get an opportunity At Compasso UOL.</description>
 	<properties>
 		<java.version>11</java.version>
 	</properties>
@@ -58,6 +58,7 @@
 	</dependencies>
 
 	<build>
+		<finalName>product-ms</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
