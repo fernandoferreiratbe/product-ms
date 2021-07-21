@@ -10,6 +10,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
@@ -61,5 +62,14 @@ public class ProductRepositoryTest {
         Assertions.assertEquals("Tennis Nike", productUpdated.getName());
         Assertions.assertEquals("Not Casual", productUpdated.getDescription());
         Assertions.assertEquals(349.60, productUpdated.getPrice());
+    }
+
+    @Test
+    public void givenValidId_ShouldFindProductInDatabase_ReturnValidProduct() {
+        Product product = Product.builder().name("Nike").description("Casual").price(99.9).build();
+        this.productRepository.save(product);
+
+        Assertions.assertDoesNotThrow(() -> this.productRepository.findById(product.getId()).get());
+
     }
 }
