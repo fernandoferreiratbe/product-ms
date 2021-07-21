@@ -2,7 +2,6 @@ package io.github.fernandoferreira.compasso.productms.controller;
 
 import io.github.fernandoferreira.compasso.productms.model.Product;
 import io.github.fernandoferreira.compasso.productms.service.ProductService;
-
 import io.restassured.http.ContentType;
 import io.restassured.module.mockmvc.RestAssuredMockMvc;
 import org.junit.jupiter.api.BeforeEach;
@@ -50,5 +49,16 @@ public class ProductControllerTest {
                 .get("/products/{id}", 1L)
                 .then()
                 .statusCode(HttpStatus.OK.value());
+    }
+
+    @Test
+    public void givenInvalidId_ShouldNotFindItInDatabase_ReturnProductNotFound() {
+        when(this.productService.findById(5L)).thenReturn(Optional.empty());
+
+        RestAssuredMockMvc.given()
+                .accept(ContentType.JSON)
+                .get("/products/{id}", 5L)
+                .then()
+                .statusCode(HttpStatus.NOT_FOUND.value());
     }
 }
