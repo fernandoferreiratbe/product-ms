@@ -10,7 +10,6 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
@@ -22,8 +21,6 @@ public class ProductRepositoryTest {
 
     @Autowired
     private TestEntityManager testEntityManager;
-
-
 
     @Test
     public void givenValidProduct_ShouldCreateResource_ReturnNewProduct() {
