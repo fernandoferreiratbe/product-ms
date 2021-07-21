@@ -1,8 +1,6 @@
 package io.github.fernandoferreira.compasso.productms.repository;
 
-import io.github.fernandoferreira.compasso.productms.config.exception.ProductNotFoundException;
 import io.github.fernandoferreira.compasso.productms.model.Product;
-import io.github.fernandoferreira.compasso.productms.service.ProductService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,4 +45,21 @@ public class ProductRepositoryTest {
         Assertions.assertThrows(NoSuchElementException.class, () -> this.productRepository.findById(product.getId()).get());
     }
 
+    @Test
+    public void givenProduct_UpdateItsValues_ShouldPersistCorrectly() {
+        Product product = Product.builder().name("Nike").description("Casual").price(99.9).build();
+        this.productRepository.save(product);
+        Long id = product.getId();
+        product.setName("Tennis Nike");
+        product.setDescription("Not Casual");
+        product.setPrice(349.60);
+        this.productRepository.save(product);
+        Product productUpdated = this.productRepository.findById(id).get();
+
+        Assertions.assertNotNull(productUpdated.getId());
+        Assertions.assertEquals(id, productUpdated.getId());
+        Assertions.assertEquals("Tennis Nike", productUpdated.getName());
+        Assertions.assertEquals("Not Casual", productUpdated.getDescription());
+        Assertions.assertEquals(349.60, productUpdated.getPrice());
+    }
 }
