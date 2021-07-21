@@ -58,3 +58,16 @@ $ docker start compasso_uol
 To access the api documentation access the url below after start application.
 
 URL: http://localhost:9999/swagger-ui.html
+
+
+### API Health
+
+To monitor API health, send a get to the url below:
+
+URL: http://localhost:9999/actuator
+
+The resource actuator exposes a list of another resources regarding to API details:
+
+E.g:
+* http://localhost:9999/actuator/info
+* http://localhost:9999/actuator/health
