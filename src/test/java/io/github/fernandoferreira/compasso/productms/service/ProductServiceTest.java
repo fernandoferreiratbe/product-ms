@@ -2,6 +2,7 @@ package io.github.fernandoferreira.compasso.productms.service;
 
 import io.github.fernandoferreira.compasso.productms.config.exception.ProductNotFoundException;
 import io.github.fernandoferreira.compasso.productms.controller.dto.ProductRequest;
+import io.github.fernandoferreira.compasso.productms.model.Product;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.util.NoSuchElementException;
+import java.util.Set;
 
 @SpringBootTest
 @ActiveProfiles(value = "homolog")
@@ -34,6 +36,7 @@ class ProductServiceTest {
 
     @Test
     public void givenNameNotRegistered_ShouldNotFindProductDuringSearch_ThrowsProductNotFoundException() {
-        Assertions.assertThrows(ProductNotFoundException.class, () -> this.productService.searchBy("Product", -1., -1.));
+        Set<Product> products = this.productService.searchBy("Product", -1., -1.);
+        Assertions.assertTrue(products.isEmpty());
     }
 }

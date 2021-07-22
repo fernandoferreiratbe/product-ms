@@ -14,6 +14,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
@@ -33,16 +34,29 @@ public class ProductCriteriaRepositoryImpl implements ProductCriteriaRepository 
         Root<Product> productRoot = cq.from(Product.class);
 
         Predicate pricePredicate = this.checkPrice(minPrice, maxPrice, cb, productRoot);
+        Predicate nameOrDescriptionPredicate = null;
 
         if (Objects.nonNull(nameOrDescription) && !nameOrDescription.isBlank()) {
             Predicate namePredicate = cb.like(cb.upper(productRoot.get("name")), "%" + nameOrDescription.toUpperCase() + "%");
             Predicate descriptionPredicate = cb.like(cb.upper(productRoot.get("description")), "%" + nameOrDescription.toUpperCase() + "%");
-            Predicate predicate = cb.or(namePredicate, descriptionPredicate);
-            cq.where(predicate);
+            nameOrDescriptionPredicate = cb.or(namePredicate, descriptionPredicate);
         }
 
-        if (Objects.nonNull(pricePredicate)) {
+        if (Objects.nonNull(pricePredicate) && Objects.nonNull(nameOrDescriptionPredicate)) {
+            Predicate finalPredicate = cb.and(pricePredicate, nameOrDescriptionPredicate);
+            cq.where(finalPredicate);
+        }
+
+        if (Objects.isNull(pricePredicate) && Objects.nonNull(nameOrDescriptionPredicate)) {
+            cq.where(nameOrDescriptionPredicate);
+        }
+
+        if (Objects.nonNull(pricePredicate) && Objects.isNull(nameOrDescriptionPredicate)) {
             cq.where(pricePredicate);
+        }
+
+        if (Objects.isNull(pricePredicate) && Objects.isNull(nameOrDescriptionPredicate)) {
+            return new ArrayList<>();
         }
 
         TypedQuery<Product> query = this.entityManager.createQuery(cq);

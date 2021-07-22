@@ -35,10 +35,6 @@ public class ProductService {
 
         List<Product> products = this.productCriteriaRepository.search(nameOrDescription, minPrice, maxPrice);
 
-        if (products.isEmpty()) {
-            throw new ProductNotFoundException("No products found for criteria.");
-        }
-
         return new HashSet<>(products);
     }
 
