@@ -3,10 +3,7 @@ package io.github.fernandoferreira.compasso.productms.repository.impl;
 import io.github.fernandoferreira.compasso.productms.model.Product;
 import io.github.fernandoferreira.compasso.productms.repository.ProductCriteriaRepository;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.Criteria;
 import org.springframework.stereotype.Repository;
-import org.springframework.util.StringUtils;
-
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
@@ -16,7 +13,6 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import java.util.Objects;
 
 @Repository
