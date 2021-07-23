@@ -45,7 +45,7 @@ public class ProductService {
     public Product update(Long id, ProductRequest productRequest) {
         Optional<Product> optional = this.productRepository.findById(id);
 
-        if (!optional.isPresent()) {
+        if (optional.isEmpty()) {
             throw new ProductNotFoundException("Product id " + id + " not found");
         }
 
@@ -60,7 +60,7 @@ public class ProductService {
     public void deleteById(Long id) {
         Optional<Product> optional = this.productRepository.findById(id);
 
-        if (!optional.isPresent()) {
+        if (optional.isEmpty()) {
             throw new ProductNotFoundException("Product id " + id + " not found");
         }
 
