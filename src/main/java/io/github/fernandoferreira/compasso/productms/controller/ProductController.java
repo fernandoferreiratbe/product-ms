@@ -44,12 +44,9 @@ public class ProductController {
     public ResponseEntity<ProductSearchResponse> search(@RequestParam(required = false, name = "q") String nameOrDescription,
                                                @RequestParam(required = false, name = "min_price") Double minPrice,
                                                @RequestParam(required = false, name = "max_price") Double maxPrice) {
-        try {
-            Set<Product> products = this.productService.searchBy(nameOrDescription, minPrice, maxPrice);
-            return ResponseEntity.ok(ProductSearchResponse.builder().products(products).build());
-        } catch (ProductNotFoundException exception) {
-            return ResponseEntity.notFound().build();
-        }
+        Set<Product> products = this.productService.searchBy(nameOrDescription, minPrice, maxPrice);
+        return ResponseEntity.ok(ProductSearchResponse.builder().products(products).build());
+
     }
 
     @PostMapping
@@ -66,21 +63,13 @@ public class ProductController {
     @PutMapping("/{id}")
     @Transactional
     public ResponseEntity<Product> update(@PathVariable Long id, @Valid @RequestBody ProductRequest productRequest) {
-        try {
-            return ResponseEntity.ok(this.productService.update(id, productRequest));
-        } catch (ProductNotFoundException exception) {
-            return ResponseEntity.notFound().build();
-        }
+        return ResponseEntity.ok(this.productService.update(id, productRequest));
     }
 
     @DeleteMapping("/{id}")
     @Transactional
     public ResponseEntity<?> delete(@PathVariable Long id) {
-        try {
-            this.productService.deleteById(id);
-            return ResponseEntity.ok().build();
-        } catch (ProductNotFoundException exception) {
-            return ResponseEntity.notFound().build();
-        }
+        this.productService.deleteById(id);
+        return ResponseEntity.ok().build();
     }
 }

@@ -40,4 +40,8 @@ public class ErrorInterceptor {
         return errors;
     }
 
+    @ResponseStatus(code = HttpStatus.NOT_FOUND)
+    @ExceptionHandler(ProductNotFoundException.class)
+    public void handleProductNotFound(ProductNotFoundException exception) { }
+
 }
