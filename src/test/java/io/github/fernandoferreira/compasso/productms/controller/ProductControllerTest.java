@@ -1,10 +1,14 @@
 package io.github.fernandoferreira.compasso.productms.controller;
 
+import io.github.fernandoferreira.compasso.productms.config.exception.ErrorInterceptor;
+import io.github.fernandoferreira.compasso.productms.config.exception.ProductNotFoundException;
+import io.github.fernandoferreira.compasso.productms.controller.dto.ProductRequest;
 import io.github.fernandoferreira.compasso.productms.model.Product;
 import io.github.fernandoferreira.compasso.productms.service.ProductService;
 import io.restassured.http.ContentType;
 import io.restassured.module.mockmvc.RestAssuredMockMvc;
 import io.restassured.module.mockmvc.response.MockMvcResponse;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -26,12 +30,15 @@ public class ProductControllerTest {
     @Autowired
     private ProductController productController;
 
+    @Autowired
+    private ErrorInterceptor errorInterceptor;
+
     @MockBean
     private ProductService productService;
 
     @BeforeEach
     public void setUp() {
-        RestAssuredMockMvc.standaloneSetup(this.productController);
+        RestAssuredMockMvc.standaloneSetup(this.productController, this.errorInterceptor);
     }
 
     @Test
@@ -46,23 +53,26 @@ public class ProductControllerTest {
         when(this.productService.findById(1L))
                 .thenReturn(product);
 
-        RestAssuredMockMvc.given()
+        RestAssuredMockMvc
+                .given()
                 .accept(ContentType.JSON)
                 .when()
                 .get("/products/{id}", 1L)
                 .then()
-                .statusCode(HttpStatus.OK.value());
+                .status(HttpStatus.OK);
     }
 
     @Test
     public void givenInvalidId_ShouldNotFindItInDatabase_ReturnProductNotFound() {
         when(this.productService.findById(5L)).thenReturn(Optional.empty());
 
-        RestAssuredMockMvc.given()
+        RestAssuredMockMvc
+                .given()
+                .header("Content-Type", "application/json")
                 .accept(ContentType.JSON)
                 .get("/products/{id}", 5L)
                 .then()
-                .statusCode(HttpStatus.NOT_FOUND.value());
+                .status(HttpStatus.NOT_FOUND);
     }
 
     @Test
@@ -76,19 +86,107 @@ public class ProductControllerTest {
         requestBody.put("description", "MOUNTAIN SHIRT");
         requestBody.put("price", 90.0);
 
-        MockMvcResponse response = RestAssuredMockMvc.given()
+        MockMvcResponse response = RestAssuredMockMvc
+                .given()
                 .header("Content-Type", "application/json")
                 .and()
                 .body(requestBody.toString())
                 .when()
                 .post("/products")
                 .then()
-                .extract().response();
+                .extract()
+                .response();
 
         Assertions.assertEquals(201, response.statusCode());
         Assertions.assertEquals("SHIRT", response.jsonPath().getString("name"));
         Assertions.assertEquals("MOUNTAIN SHIRT", response.jsonPath().getString("description"));
-        Assertions.assertEquals("90.0", response.jsonPath().getString("price"));
-        Assertions.assertEquals("1", response.jsonPath().getString("id"));
+        Assertions.assertEquals(90.0, response.jsonPath().getDouble("price"));
+        Assertions.assertEquals(1L, response.jsonPath().getLong("id"));
     }
+
+    @Test
+    public void givenValidId_ShouldDeleteProductSuccessfully_ReturnOK() {
+        Product product = Product.builder().name("SHIRT").description("MOUNTAIN SHIRT").price(90.0).build();
+        when(this.productService.deleteById(1L)).thenReturn(product);
+
+        RestAssuredMockMvc
+                .given()
+                .header("Content-Type", "application/json")
+                .when()
+                .delete("/products/{id}", 1L)
+                .then()
+                .status(HttpStatus.OK);
+    }
+
+    @Test
+    public void givenInvalidId_ShouldNotFindProduct_ThrowsProductNotFoundException() {
+        when(this.productService.deleteById(5L)).thenThrow(new ProductNotFoundException(""));
+
+        RestAssuredMockMvc
+                .given()
+                .header("Content-Type", "application/json")
+                .when()
+                .delete("/products/{id}", 5L)
+                .then()
+                .status(HttpStatus.NOT_FOUND);
+
+    }
+
+    @Test
+    public void givenInvalidProductIt_ThrowsExceptionWhenTryToUpdate_ReturnNotFound() throws JSONException {
+        ProductRequest productRequest = new ProductRequest("TENNIS", "CASUAL", 958.50);
+        ProductNotFoundException exception = new ProductNotFoundException("Product id 1 not found");
+
+        JSONObject requestBody = new JSONObject();
+        requestBody.put("name", productRequest.getName());
+        requestBody.put("description", productRequest.getDescription());
+        requestBody.put("price", productRequest.getPrice());
+
+        when(this.productService.update(1L, productRequest)).thenThrow(exception);
+
+        RestAssuredMockMvc
+                .given()
+                .header("Content-Type", "application/json")
+                .body(requestBody.toString())
+                .when()
+                .put("/products/{id}", 1L)
+                .then()
+                .status(HttpStatus.NOT_FOUND);
+
+
+    }
+
+    @Test
+    public void givenValidProduct_ShouldUpdateCorrectly_ReturnOk() throws Exception {
+        ProductRequest productRequest = new ProductRequest("TENNIS", "CASUAL", 958.50);
+
+        Product product = Product.builder().id(1L).name("TENNIS").description("CASUAL").price(958.50).build();
+
+        when(this.productService.update(1L, productRequest))
+                .thenReturn(product);
+
+
+        JSONObject requestBody = new JSONObject();
+        requestBody.put("name", productRequest.getName());
+        requestBody.put("description", productRequest.getDescription());
+        requestBody.put("price", productRequest.getPrice());
+
+        MockMvcResponse response = RestAssuredMockMvc
+                .given()
+                .header("Content-Type", "application/json")
+                .and()
+                .body(requestBody.toString())
+                .when()
+                .put("/products/{id}", 1L)
+                .then()
+                .extract()
+                .response();
+
+        Assertions.assertEquals(200, response.statusCode());
+        Assertions.assertEquals("TENNIS", response.jsonPath().getString("name"));
+        Assertions.assertEquals("CASUAL", response.jsonPath().getString("description"));
+        Assertions.assertEquals(958.5, response.jsonPath().getDouble("price"));
+        Assertions.assertEquals(1L, response.jsonPath().getLong("id"));
+    }
+
 }

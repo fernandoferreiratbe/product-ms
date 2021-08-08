@@ -1,6 +1,5 @@
 package io.github.fernandoferreira.compasso.productms.controller;
 
-import io.github.fernandoferreira.compasso.productms.config.exception.ProductNotFoundException;
 import io.github.fernandoferreira.compasso.productms.controller.dto.ProductRequest;
 import io.github.fernandoferreira.compasso.productms.controller.dto.ProductSearchResponse;
 import io.github.fernandoferreira.compasso.productms.converter.ProductConverter;
@@ -8,7 +7,6 @@ import io.github.fernandoferreira.compasso.productms.model.Product;
 import io.github.fernandoferreira.compasso.productms.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -63,13 +61,15 @@ public class ProductController {
     @PutMapping("/{id}")
     @Transactional
     public ResponseEntity<Product> update(@PathVariable Long id, @Valid @RequestBody ProductRequest productRequest) {
-        return ResponseEntity.ok(this.productService.update(id, productRequest));
+        Product product = this.productService.update(id, productRequest);
+
+        return ResponseEntity.ok(product);
     }
 
     @DeleteMapping("/{id}")
     @Transactional
     public ResponseEntity<?> delete(@PathVariable Long id) {
-        this.productService.deleteById(id);
-        return ResponseEntity.ok().build();
+        Product deletedProduct = this.productService.deleteById(id);
+        return ResponseEntity.ok().body(deletedProduct);
     }
 }

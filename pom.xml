@@ -12,7 +12,7 @@
 	<artifactId>productms</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>productms</name>
-	<description>Project created for a technical test in order to get an opportunity At Compasso UOL.</description>
+	<description>Project created to evaluating my understanding about API and micro services.</description>
 	<properties>
 		<java.version>11</java.version>
 	</properties>
@@ -51,6 +51,12 @@
 			<version>2.9.2</version>
 		</dependency>
 		<dependency>
+			<groupId>io.rest-assured</groupId>
+			<artifactId>spring-mock-mvc</artifactId>
+			<version>4.4.0</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
@@ -58,11 +64,6 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-actuator</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>io.rest-assured</groupId>
-			<artifactId>spring-mock-mvc</artifactId>
-			<scope>test</scope>
 		</dependency>
 	</dependencies>
 

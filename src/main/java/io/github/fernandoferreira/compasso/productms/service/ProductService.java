@@ -57,13 +57,17 @@ public class ProductService {
         return product;
     }
 
-    public void deleteById(Long id) {
+    public Product deleteById(Long id) {
         Optional<Product> optional = this.productRepository.findById(id);
 
         if (optional.isEmpty()) {
             throw new ProductNotFoundException("Product id " + id + " not found");
         }
 
-        this.productRepository.delete(optional.get());
+        Product product = optional.get();
+
+        this.productRepository.delete(product);
+
+        return product;
     }
 }
