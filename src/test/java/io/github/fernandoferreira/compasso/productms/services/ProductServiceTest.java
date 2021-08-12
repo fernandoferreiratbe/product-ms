@@ -1,8 +1,8 @@
-package io.github.fernandoferreira.compasso.productms.service;
+package io.github.fernandoferreira.compasso.productms.services;
 
 import io.github.fernandoferreira.compasso.productms.config.exception.ProductNotFoundException;
-import io.github.fernandoferreira.compasso.productms.controller.dto.ProductRequest;
-import io.github.fernandoferreira.compasso.productms.model.Product;
+import io.github.fernandoferreira.compasso.productms.controllers.dto.ProductRequest;
+import io.github.fernandoferreira.compasso.productms.models.Product;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

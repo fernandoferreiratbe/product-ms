@@ -1,7 +1,7 @@
-package io.github.fernandoferreira.compasso.productms.repository.impl;
+package io.github.fernandoferreira.compasso.productms.repositories.impl;
 
-import io.github.fernandoferreira.compasso.productms.model.Product;
-import io.github.fernandoferreira.compasso.productms.repository.ProductCriteriaRepository;
+import io.github.fernandoferreira.compasso.productms.models.Product;
+import io.github.fernandoferreira.compasso.productms.repositories.ProductCriteriaRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 

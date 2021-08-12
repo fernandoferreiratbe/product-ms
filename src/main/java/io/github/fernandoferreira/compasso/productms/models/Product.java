@@ -1,4 +1,4 @@
-package io.github.fernandoferreira.compasso.productms.model;
+package io.github.fernandoferreira.compasso.productms.models;
 
 import lombok.*;
 

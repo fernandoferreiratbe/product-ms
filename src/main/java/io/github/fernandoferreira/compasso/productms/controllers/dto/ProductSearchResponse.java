@@ -1,6 +1,6 @@
-package io.github.fernandoferreira.compasso.productms.controller.dto;
+package io.github.fernandoferreira.compasso.productms.controllers.dto;
 
-import io.github.fernandoferreira.compasso.productms.model.Product;
+import io.github.fernandoferreira.compasso.productms.models.Product;
 import lombok.Builder;
 import lombok.Data;
 

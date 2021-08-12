@@ -1,10 +1,10 @@
-package io.github.fernandoferreira.compasso.productms.controller;
+package io.github.fernandoferreira.compasso.productms.controllers;
 
 import io.github.fernandoferreira.compasso.productms.config.exception.ErrorInterceptor;
 import io.github.fernandoferreira.compasso.productms.config.exception.ProductNotFoundException;
-import io.github.fernandoferreira.compasso.productms.controller.dto.ProductRequest;
-import io.github.fernandoferreira.compasso.productms.model.Product;
-import io.github.fernandoferreira.compasso.productms.service.ProductService;
+import io.github.fernandoferreira.compasso.productms.controllers.dto.ProductRequest;
+import io.github.fernandoferreira.compasso.productms.models.Product;
+import io.github.fernandoferreira.compasso.productms.services.ProductService;
 import io.restassured.http.ContentType;
 import io.restassured.module.mockmvc.RestAssuredMockMvc;
 import io.restassured.module.mockmvc.response.MockMvcResponse;

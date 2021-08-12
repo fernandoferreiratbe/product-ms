@@ -1,10 +1,10 @@
-package io.github.fernandoferreira.compasso.productms.controller;
+package io.github.fernandoferreira.compasso.productms.controllers;
 
-import io.github.fernandoferreira.compasso.productms.controller.dto.ProductRequest;
-import io.github.fernandoferreira.compasso.productms.controller.dto.ProductSearchResponse;
-import io.github.fernandoferreira.compasso.productms.converter.ProductConverter;
-import io.github.fernandoferreira.compasso.productms.model.Product;
-import io.github.fernandoferreira.compasso.productms.service.ProductService;
+import io.github.fernandoferreira.compasso.productms.controllers.dto.ProductRequest;
+import io.github.fernandoferreira.compasso.productms.controllers.dto.ProductSearchResponse;
+import io.github.fernandoferreira.compasso.productms.converters.ProductConverter;
+import io.github.fernandoferreira.compasso.productms.models.Product;
+import io.github.fernandoferreira.compasso.productms.services.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

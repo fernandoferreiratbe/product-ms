@@ -1,7 +1,7 @@
-package io.github.fernandoferreira.compasso.productms.converter;
+package io.github.fernandoferreira.compasso.productms.converters;
 
-import io.github.fernandoferreira.compasso.productms.controller.dto.ProductRequest;
-import io.github.fernandoferreira.compasso.productms.model.Product;
+import io.github.fernandoferreira.compasso.productms.controllers.dto.ProductRequest;
+import io.github.fernandoferreira.compasso.productms.models.Product;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 

@@ -1,6 +1,6 @@
-package io.github.fernandoferreira.compasso.productms.repository;
+package io.github.fernandoferreira.compasso.productms.repositories;
 
-import io.github.fernandoferreira.compasso.productms.model.Product;
+import io.github.fernandoferreira.compasso.productms.models.Product;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

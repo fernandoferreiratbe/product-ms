@@ -1,10 +1,10 @@
-package io.github.fernandoferreira.compasso.productms.service;
+package io.github.fernandoferreira.compasso.productms.services;
 
 import io.github.fernandoferreira.compasso.productms.config.exception.ProductNotFoundException;
-import io.github.fernandoferreira.compasso.productms.controller.dto.ProductRequest;
-import io.github.fernandoferreira.compasso.productms.model.Product;
-import io.github.fernandoferreira.compasso.productms.repository.ProductCriteriaRepository;
-import io.github.fernandoferreira.compasso.productms.repository.ProductRepository;
+import io.github.fernandoferreira.compasso.productms.controllers.dto.ProductRequest;
+import io.github.fernandoferreira.compasso.productms.models.Product;
+import io.github.fernandoferreira.compasso.productms.repositories.ProductCriteriaRepository;
+import io.github.fernandoferreira.compasso.productms.repositories.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

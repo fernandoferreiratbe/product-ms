@@ -1,4 +1,4 @@
-package io.github.fernandoferreira.compasso.productms.controller.dto;
+package io.github.fernandoferreira.compasso.productms.controllers.dto;
 
 import lombok.*;
 
