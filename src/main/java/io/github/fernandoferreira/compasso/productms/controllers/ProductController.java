@@ -8,6 +8,7 @@ import io.github.fernandoferreira.compasso.productms.services.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.transaction.Transactional;
@@ -49,11 +50,15 @@ public class ProductController {
 
     @PostMapping
     @Transactional
-    public ResponseEntity<Product> post(@Valid @RequestBody ProductRequest productRequest, UriComponentsBuilder uriBuilder) {
+    public ResponseEntity<Product> post(@Valid @RequestBody ProductRequest productRequest) {
         Product product = this.productConverter.convert(productRequest);
         Product productSaved = this.productService.save(product);
 
-        URI uri = uriBuilder.path("/product/{id}").buildAndExpand(productSaved.getId()).toUri();
+        URI uri = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(productSaved.getId())
+                .toUri();
 
         return ResponseEntity.created(uri).body(productSaved);
     }
