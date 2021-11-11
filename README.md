@@ -1,3 +1,4 @@
+[![Build Status](https://app.travis-ci.com/fernandoferreiratbe/product-ms.svg?branch=main)](https://app.travis-ci.com/fernandoferreiratbe/product-ms)
 ## Product Micro Service
 
 The goal of this project is to implement a RESTfull API, following [Leonard Richardson maturity model](https://martinfowler.com/articles/richardsonMaturityModel.html). 
