@@ -14,7 +14,7 @@ import java.util.NoSuchElementException;
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @ActiveProfiles("homolog")
-public class ProductRepositoryTest {
+class ProductRepositoryIntegrationTest {
 
     @Autowired
     private ProductRepository productRepository;
@@ -23,7 +23,7 @@ public class ProductRepositoryTest {
     private TestEntityManager testEntityManager;
 
     @Test
-    public void givenValidProduct_ShouldCreateResource_ReturnNewProduct() {
+    void givenValidProduct_ShouldCreateResource_ReturnNewProduct() {
         Product product = Product.builder().name("Nike").description("Casual").price(99.9).build();
         this.productRepository.save(product);
 
@@ -35,7 +35,7 @@ public class ProductRepositoryTest {
     }
 
     @Test
-    public void givenValidProduct_ShouldDeleteSuccessfully() {
+    void givenValidProduct_ShouldDeleteSuccessfully() {
         Product product = Product.builder().name("Nike").description("Casual").price(99.9).build();
         this.productRepository.save(product);
         this.productRepository.delete(product);
@@ -44,7 +44,7 @@ public class ProductRepositoryTest {
     }
 
     @Test
-    public void givenProduct_UpdateItsValues_ShouldPersistCorrectly() {
+    void givenProduct_UpdateItsValues_ShouldPersistCorrectly() {
         Product product = Product.builder().name("Nike").description("Casual").price(99.9).build();
         this.productRepository.save(product);
         Long id = product.getId();
@@ -62,7 +62,7 @@ public class ProductRepositoryTest {
     }
 
     @Test
-    public void givenValidId_ShouldFindProductInDatabase_ReturnValidProduct() {
+    void givenValidId_ShouldFindProductInDatabase_ReturnValidProduct() {
         Product product = Product.builder().name("Nike").description("Casual").price(99.9).build();
         this.productRepository.save(product);
 
