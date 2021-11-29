@@ -16,7 +16,7 @@ import java.util.Set;
 @SpringBootTest
 @ActiveProfiles(value = "homolog")
 @DisplayName("Product Service Unit Test")
-class ProductServiceTest {
+class ProductServiceIntegrationTest {
 
     @Autowired
     private ProductService productService;
