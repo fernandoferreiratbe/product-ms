@@ -4,6 +4,7 @@ import io.github.fernandoferreira.compasso.productms.config.exception.ProductNot
 import io.github.fernandoferreira.compasso.productms.controllers.dto.ProductRequest;
 import io.github.fernandoferreira.compasso.productms.models.Product;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -14,27 +15,32 @@ import java.util.Set;
 
 @SpringBootTest
 @ActiveProfiles(value = "homolog")
+@DisplayName("Product Service Unit Test")
 class ProductServiceTest {
 
     @Autowired
     private ProductService productService;
 
     @Test
+    @DisplayName("Given invalid id should not find product and throws no such elements exception")
     public void givenInvalidId_ShouldNotFindProduct_ThrowsNoSuchElementException() {
         Assertions.assertThrows(NoSuchElementException.class, () -> this.productService.findById(-1L).get());
     }
 
     @Test
+    @DisplayName("Given valid id should not find product during update operation and throws product not found exception")
     public void givenValidId_ShouldNotFindProductDuringUpdate_ThrowsProductNotFoundException() {
         Assertions.assertThrows(ProductNotFoundException.class, () -> this.productService.update(1L, new ProductRequest()));
     }
 
     @Test
+    @DisplayName("Given valid id should not find product during delete operation and throws product not found exception")
     public void givenValidId_ShouldNotFindProductDuringDelete_ThrowsProductNotFoundException() {
         Assertions.assertThrows(ProductNotFoundException.class, () -> this.productService.deleteById(1L));
     }
 
     @Test
+    @DisplayName("Given name not registered should not find product during search operation and throws product not found exception")
     public void givenNameNotRegistered_ShouldNotFindProductDuringSearch_ThrowsProductNotFoundException() {
         Set<Product> products = this.productService.searchBy("Product", -1., -1.);
         Assertions.assertTrue(products.isEmpty());
