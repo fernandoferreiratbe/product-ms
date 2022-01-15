@@ -25,7 +25,7 @@ import static org.mockito.Mockito.when;
 
 @ActiveProfiles(value = "homolog")
 @WebMvcTest
-public class ProductControllerTest {
+class ProductControllerTest {
 
     @Autowired
     private ProductController productController;
@@ -42,7 +42,7 @@ public class ProductControllerTest {
     }
 
     @Test
-    public void givenValidId_ShouldFindItInDatabase_ReturnProductSuccessfully() {
+    void givenValidId_ShouldFindItInDatabase_ReturnProductSuccessfully() {
         Optional<Product> product = Optional.of(Product.builder()
                                                             .id(1L)
                                                             .name("Nike")
@@ -63,7 +63,7 @@ public class ProductControllerTest {
     }
 
     @Test
-    public void givenInvalidId_ShouldNotFindItInDatabase_ReturnProductNotFound() {
+    void givenInvalidId_ShouldNotFindItInDatabase_ReturnProductNotFound() {
         when(this.productService.findById(5L)).thenReturn(Optional.empty());
 
         RestAssuredMockMvc
@@ -76,7 +76,7 @@ public class ProductControllerTest {
     }
 
     @Test
-    public void givenCorrectProductRequest_ShouldCreateNewResource_ReturnNewProduct() throws Exception {
+    void givenCorrectProductRequest_ShouldCreateNewResource_ReturnNewProduct() throws Exception {
         Product product = Product.builder().name("SHIRT").description("MOUNTAIN SHIRT").price(90.0).build();
         Product savedProduct = Product.builder().id(1L).name("SHIRT").description("MOUNTAIN SHIRT").price(90.0).build();
 
@@ -105,7 +105,7 @@ public class ProductControllerTest {
     }
 
     @Test
-    public void givenValidId_ShouldDeleteProductSuccessfully_ReturnOK() {
+    void givenValidId_ShouldDeleteProductSuccessfully_ReturnOK() {
         Product product = Product.builder().name("SHIRT").description("MOUNTAIN SHIRT").price(90.0).build();
         when(this.productService.deleteById(1L)).thenReturn(product);
 
@@ -119,7 +119,7 @@ public class ProductControllerTest {
     }
 
     @Test
-    public void givenInvalidId_ShouldNotFindProduct_ThrowsProductNotFoundException() {
+    void givenInvalidId_ShouldNotFindProduct_ThrowsProductNotFoundException() {
         when(this.productService.deleteById(5L)).thenThrow(new ProductNotFoundException(""));
 
         RestAssuredMockMvc
@@ -133,7 +133,7 @@ public class ProductControllerTest {
     }
 
     @Test
-    public void givenInvalidProductIt_ThrowsExceptionWhenTryToUpdate_ReturnNotFound() throws JSONException {
+    void givenInvalidProductId_ThrowsExceptionWhenTryToUpdate_ReturnNotFound() throws JSONException {
         ProductRequest productRequest = new ProductRequest("TENNIS", "CASUAL", 958.50);
         ProductNotFoundException exception = new ProductNotFoundException("Product id 1 not found");
 
@@ -157,7 +157,7 @@ public class ProductControllerTest {
     }
 
     @Test
-    public void givenValidProduct_ShouldUpdateCorrectly_ReturnOk() throws Exception {
+    void givenValidProduct_ShouldUpdateCorrectly_ReturnOk() throws Exception {
         ProductRequest productRequest = new ProductRequest("TENNIS", "CASUAL", 958.50);
 
         Product product = Product.builder().id(1L).name("TENNIS").description("CASUAL").price(958.50).build();

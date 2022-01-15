@@ -15,8 +15,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.List;
 import java.util.Set;
 
-import static io.restassured.module.mockmvc.RestAssuredMockMvc.when;
-
 @DisplayName("Product Service Test")
 @ExtendWith(MockitoExtension.class)
 class ProductServiceTest {
@@ -29,7 +27,7 @@ class ProductServiceTest {
 
     @Test
     @DisplayName("Invoke find all service method should return products.")
-    void findAll_InvokeFindAllServiceMethod_ShouldReturnProducts() {
+    void invokeFindAll_ShouldFindOneProduct_ObjectStateReceivedAsExpected() {
         Mockito.when(this.productRepository.findAll()).thenReturn(this.createProducts());
 
         Set<Product> products = this.productService.findAll();
