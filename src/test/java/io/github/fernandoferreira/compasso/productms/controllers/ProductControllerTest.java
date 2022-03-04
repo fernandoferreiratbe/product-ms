@@ -50,8 +50,7 @@ class ProductControllerTest {
                                                             .price(34.90)
                                                             .build());
 
-        when(this.productService.findById(1L))
-                .thenReturn(product);
+        when(this.productService.findById(1L)).thenReturn(product);
 
         RestAssuredMockMvc
                 .given()

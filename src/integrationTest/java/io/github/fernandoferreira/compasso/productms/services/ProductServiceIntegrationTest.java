@@ -23,25 +23,26 @@ class ProductServiceIntegrationTest {
 
     @Test
     @DisplayName("Given invalid id should not find product and throws no such elements exception")
-    public void givenInvalidId_ShouldNotFindProduct_ThrowsNoSuchElementException() {
-        Assertions.assertThrows(NoSuchElementException.class, () -> this.productService.findById(-1L).get());
+    void givenInvalidId_ShouldNotFindProduct_ThrowsNoSuchElementException() {
+        var product = this.productService.findById(-1L);
+        Assertions.assertThrows(NoSuchElementException.class, product::get);
     }
 
     @Test
     @DisplayName("Given valid id should not find product during update operation and throws product not found exception")
-    public void givenValidId_ShouldNotFindProductDuringUpdate_ThrowsProductNotFoundException() {
+    void givenValidId_ShouldNotFindProductDuringUpdate_ThrowsProductNotFoundException() {
         Assertions.assertThrows(ProductNotFoundException.class, () -> this.productService.update(1L, new ProductRequest()));
     }
 
     @Test
     @DisplayName("Given valid id should not find product during delete operation and throws product not found exception")
-    public void givenValidId_ShouldNotFindProductDuringDelete_ThrowsProductNotFoundException() {
+    void givenValidId_ShouldNotFindProductDuringDelete_ThrowsProductNotFoundException() {
         Assertions.assertThrows(ProductNotFoundException.class, () -> this.productService.deleteById(1L));
     }
 
     @Test
     @DisplayName("Given name not registered should not find product during search operation and throws product not found exception")
-    public void givenNameNotRegistered_ShouldNotFindProductDuringSearch_ThrowsProductNotFoundException() {
+    void givenNameNotRegistered_ShouldNotFindProductDuringSearch_ThrowsProductNotFoundException() {
         Set<Product> products = this.productService.searchBy("Product", -1., -1.);
         Assertions.assertTrue(products.isEmpty());
     }
