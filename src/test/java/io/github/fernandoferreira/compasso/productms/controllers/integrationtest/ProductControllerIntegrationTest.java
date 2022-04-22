@@ -9,14 +9,16 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 
 import javax.annotation.PostConstruct;
 
-import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("integration-test")
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
 class ProductControllerIntegrationTest {
 
     @LocalServerPort
@@ -39,7 +41,7 @@ class ProductControllerIntegrationTest {
                 .get("/products")
                 .then()
                 .assertThat()
-                .statusCode(HttpStatus.OK.value());
+                .body("products.size()", is(3));
     }
 
     @Test
@@ -54,7 +56,7 @@ class ProductControllerIntegrationTest {
                 .body("id", equalTo(1))
                 .body("name", equalTo("TENIS NIKE"))
                 .body("description", equalTo("PARA CORRIDAS LONGAS"))
-                .body("price", equalTo(350.1));
+                .body("price", equalTo(350.0));
     }
 
 }
