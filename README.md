@@ -94,3 +94,5 @@ The `jacoco.exec` binary file is not readable by humans, so if you would like to
 $ mvn jacoco:report
 ```
 **Note:** It is necessary generate `jacoco.exec` file before generate humans readable report.
+
+**PS:** After generate the JaCoCo test coverage report, access it through the directory: **<project>/target/site/jacoco/index.html**
