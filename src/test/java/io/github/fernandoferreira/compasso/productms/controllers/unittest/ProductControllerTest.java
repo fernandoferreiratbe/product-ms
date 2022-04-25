@@ -1,7 +1,8 @@
-package io.github.fernandoferreira.compasso.productms.controllers;
+package io.github.fernandoferreira.compasso.productms.controllers.unittest;
 
 import io.github.fernandoferreira.compasso.productms.config.exception.ErrorInterceptor;
 import io.github.fernandoferreira.compasso.productms.config.exception.ProductNotFoundException;
+import io.github.fernandoferreira.compasso.productms.controllers.ProductController;
 import io.github.fernandoferreira.compasso.productms.controllers.dto.ProductRequest;
 import io.github.fernandoferreira.compasso.productms.models.Product;
 import io.github.fernandoferreira.compasso.productms.services.ProductService;
