@@ -1,4 +1,4 @@
-package io.github.fernandoferreira.compasso.productms.controller;
+package io.github.fernandoferreira.compasso.productms.controllers.integrationtest;
 
 import io.restassured.RestAssured;
 import io.restassured.config.JsonConfig;
@@ -9,7 +9,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
-import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 
 import javax.annotation.PostConstruct;
@@ -18,7 +17,6 @@ import static org.hamcrest.Matchers.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("integration-test")
-@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
 class ProductControllerIntegrationTest {
 
     @LocalServerPort
