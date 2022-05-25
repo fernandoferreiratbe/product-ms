@@ -26,7 +26,7 @@ public class ProductController {
     private final ProductConverter productConverter;
 
     @GetMapping
-    public ResponseEntity<ProductSearchResponse> getProducts() {
+    public ResponseEntity<ProductSearchResponse> findAll() {
         Set<Product> products = this.productService.findAll();
 
         return ResponseEntity.ok(ProductSearchResponse.builder().products(products).build());
