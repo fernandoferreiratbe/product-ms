@@ -34,9 +34,9 @@ public class ProductController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Product> findById(@PathVariable Long id) {
-        Optional<Product> optional = this.productService.findById(id);
+        Optional<Product> product = this.productService.findById(id);
 
-        return optional.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+        return product.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @GetMapping("/search")
@@ -45,7 +45,6 @@ public class ProductController {
                                                @RequestParam(required = false, name = "max_price") Double maxPrice) {
         Set<Product> products = this.productService.searchBy(nameOrDescription, minPrice, maxPrice);
         return ResponseEntity.ok(ProductSearchResponse.builder().products(products).build());
-
     }
 
     @PostMapping

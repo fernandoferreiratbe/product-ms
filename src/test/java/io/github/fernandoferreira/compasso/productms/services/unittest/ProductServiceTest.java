@@ -1,4 +1,4 @@
-package io.github.fernandoferreira.compasso.productms.services.ut;
+package io.github.fernandoferreira.compasso.productms.services.unittest;
 
 import io.github.fernandoferreira.compasso.productms.models.Product;
 import io.github.fernandoferreira.compasso.productms.repositories.ProductRepository;
