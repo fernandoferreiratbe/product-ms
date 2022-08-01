@@ -29,7 +29,7 @@ public class ProductCriteriaRepositoryImpl implements ProductCriteriaRepository 
 
         Root<Product> productRoot = cq.from(Product.class);
 
-        Predicate pricePredicate = this.checkPrice(minPrice, maxPrice, cb, productRoot);
+        Predicate pricePredicate = this.generatePricePredicate(minPrice, maxPrice, cb, productRoot);
         Predicate nameOrDescriptionPredicate = null;
 
         if (Objects.nonNull(nameOrDescription) && !nameOrDescription.isBlank()) {
@@ -60,7 +60,7 @@ public class ProductCriteriaRepositoryImpl implements ProductCriteriaRepository 
         return query.getResultList();
     }
 
-    private Predicate checkPrice(Double minPrice, Double maxPrice, CriteriaBuilder cb, Root<Product> root) {
+    private Predicate generatePricePredicate(Double minPrice, Double maxPrice, CriteriaBuilder cb, Root<Product> root) {
         if (Objects.nonNull(minPrice) && Objects.nonNull(maxPrice)) {
             return cb.between(root.get("price"), minPrice, maxPrice);
         }
