@@ -30,8 +30,8 @@ public class ErrorInterceptor {
         List<ErrorDto> errors = new ArrayList<>();
         List<FieldError> fieldErrors = exception.getBindingResult().getFieldErrors();
 
-        fieldErrors.forEach(e -> {
-            String message = this.messageSource.getMessage(e, LocaleContextHolder.getLocale());
+        fieldErrors.forEach(fieldError -> {
+            String message = this.messageSource.getMessage(fieldError, LocaleContextHolder.getLocale());
             ErrorDto error = new ErrorDto(HttpStatus.BAD_REQUEST.value(), message);
 
             errors.add(error);
