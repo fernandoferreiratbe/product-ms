@@ -63,7 +63,7 @@ $ docker start fferreira_product_ms
 ```
 
 ### Access API documentation 
-To access the api documentation access the url below after start application.
+To access the api documentation uses the url below after start application.
 
 URL: http://localhost:9999/swagger-ui.html
 
