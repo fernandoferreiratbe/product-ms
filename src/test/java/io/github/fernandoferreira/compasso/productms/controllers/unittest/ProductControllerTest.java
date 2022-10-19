@@ -100,8 +100,32 @@ class ProductControllerTest {
         Assertions.assertEquals(201, response.statusCode());
         Assertions.assertEquals("SHIRT", response.jsonPath().getString("name"));
         Assertions.assertEquals("MOUNTAIN SHIRT", response.jsonPath().getString("description"));
-        Assertions.assertEquals(90.0, response.jsonPath().getDouble("price"));
         Assertions.assertEquals(1L, response.jsonPath().getLong("id"));
+        Assertions.assertEquals(90.0, response.jsonPath().getDouble("price"));
+    }
+
+    @Test
+    void givenInvalidProductRequest_shouldNotCreateNewProduct_returnBadRequest() throws JSONException {
+        Product product = Product.builder().name("SHIRT").description("MOUNTAIN SHIRT").price(90.0).build();
+        Product savedProduct = Product.builder().id(1L).name("SHIRT").description("MOUNTAIN SHIRT").price(90.0).build();
+
+        when(this.productService.save(product)).thenReturn(savedProduct);
+        JSONObject requestBody = new JSONObject();
+        requestBody.put("name", "SHIRT");
+        requestBody.put("price", 90.0);
+
+        MockMvcResponse response = RestAssuredMockMvc
+                .given()
+                .header("Content-Type", "application/json")
+                .and()
+                .body(requestBody.toString())
+                .when()
+                .post("/products")
+                .then()
+                .extract()
+                .response();
+
+        Assertions.assertEquals(400, response.statusCode());
     }
 
     @Test
