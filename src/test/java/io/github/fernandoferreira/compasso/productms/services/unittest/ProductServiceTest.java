@@ -1,6 +1,7 @@
 package io.github.fernandoferreira.compasso.productms.services.unittest;
 
 import io.github.fernandoferreira.compasso.productms.models.Product;
+import io.github.fernandoferreira.compasso.productms.repositories.ProductCriteriaRepository;
 import io.github.fernandoferreira.compasso.productms.repositories.ProductRepository;
 import io.github.fernandoferreira.compasso.productms.services.ProductService;
 import org.assertj.core.api.Assertions;
@@ -23,6 +24,9 @@ class ProductServiceTest {
 
     @Mock
     private ProductRepository productRepository;
+
+    @Mock
+    private ProductCriteriaRepository productCriteriaRepository;
 
     @InjectMocks
     private ProductService productService;
@@ -52,6 +56,21 @@ class ProductServiceTest {
         Assertions.assertThat(product.isPresent()).isTrue();
         Assertions.assertThat(product.get().getId()).isEqualTo(1L);
         Assertions.assertThat(product.get().getName()).isEqualTo("DUMMY_PRODUCT_NAME");
+    }
+
+    @Test
+    @DisplayName("Given valid name should search for products and return a valid product")
+    void search_givenValidName_shouldSearchForProducts_returnValidProduct() {
+        Mockito.when(this.productCriteriaRepository.search("DUMMY_PRODUCT_NAME", 0., 0.))
+                .thenReturn(this.createProducts());
+
+        Set<Product> products = this.productService.searchBy("DUMMY_PRODUCT_NAME", 0., 0.);
+
+        Assertions.assertThat(products.size()).isEqualTo(1);
+        Assertions.assertThat(products)
+                .extracting("id", "name", "description", "price")
+                .doesNotContainNull()
+                .contains(Tuple.tuple(1L, "DUMMY_PRODUCT_NAME", "DUMMY_PRODUCT_DESCRIPTION", 230.0));
     }
 
     private List<Product> createProducts() {
