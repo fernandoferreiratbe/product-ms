@@ -14,7 +14,7 @@
 	<name>productms</name>
 	<description>Project created to evaluating my understanding about API and micro services.</description>
 	<properties>
-		<java.version>17</java.version>
+		<java.version>20</java.version>
 	</properties>
 	<dependencies>
 		<dependency>
