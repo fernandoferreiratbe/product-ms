@@ -63,7 +63,6 @@ class ProductServiceTest {
     void search_givenValidName_shouldSearchForProducts_returnValidProduct() {
         Mockito.when(this.productCriteriaRepository.search("DUMMY_PRODUCT_NAME", 0., 0.))
                 .thenReturn(this.createProducts());
-
         Set<Product> products = this.productService.searchBy("DUMMY_PRODUCT_NAME", 0., 0.);
 
         Assertions.assertThat(products.size()).isEqualTo(1);
