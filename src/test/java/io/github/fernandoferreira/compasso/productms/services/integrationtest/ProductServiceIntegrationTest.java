@@ -17,6 +17,7 @@
 //@SpringBootTest
 //@ActiveProfiles(value = "homolog")
 //@DisplayName("Product Service Unit Test")
+//@Tag("integration")
 //class ProductServiceIntegrationTest {
 //
 //    @Autowired

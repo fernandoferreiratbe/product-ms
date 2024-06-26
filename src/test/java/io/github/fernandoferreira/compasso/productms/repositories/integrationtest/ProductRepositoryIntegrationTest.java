@@ -3,6 +3,7 @@ package io.github.fernandoferreira.compasso.productms.repositories.integrationte
 import io.github.fernandoferreira.compasso.productms.models.Product;
 import io.github.fernandoferreira.compasso.productms.repositories.ProductRepository;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -13,6 +14,7 @@ import java.util.NoSuchElementException;
 
 @DataJpaTest
 @ActiveProfiles("integration-test")
+@Tag("integration")
 class ProductRepositoryIntegrationTest {
 
     @Autowired
