@@ -18,13 +18,11 @@ import org.springframework.test.context.ActiveProfiles;
 
 import jakarta.annotation.PostConstruct;
 
-import java.net.URI;
-
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@ActiveProfiles("test")
+@ActiveProfiles("integration-test")
 @Tag("integration")
 class ProductControllerIntegrationTest {
 
@@ -76,7 +74,6 @@ class ProductControllerIntegrationTest {
         );
 
         String requestBody = new ObjectMapper().writeValueAsString(productRequest);
-
 
         Product productCreated = RestAssured
                 .given()

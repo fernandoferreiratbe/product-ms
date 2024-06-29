@@ -18,7 +18,7 @@ import java.util.Set;
 @SpringBootTest
 @ActiveProfiles(value = "integration-test")
 @DisplayName("Product Service Unit Test")
-@Tag("integration")
+@Tag("integration-test")
 class ProductServiceIntegrationTest {
 
     @Autowired
