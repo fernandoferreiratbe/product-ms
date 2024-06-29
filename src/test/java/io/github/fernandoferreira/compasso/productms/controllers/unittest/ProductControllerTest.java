@@ -55,11 +55,11 @@ class ProductControllerTest {
 
         RestAssuredMockMvc
                 .given()
-                .accept(ContentType.JSON)
+                    .accept(ContentType.JSON)
                 .when()
-                .get("/products/{id}", 1L)
+                    .get("/products/{id}", "1")
                 .then()
-                .status(HttpStatus.OK);
+                    .status(HttpStatus.OK);
     }
 
     @Test
@@ -68,11 +68,12 @@ class ProductControllerTest {
 
         RestAssuredMockMvc
                 .given()
-                .header("Content-Type", "application/json")
-                .accept(ContentType.JSON)
-                .get("/products/{id}", 5L)
+                    .header("Content-Type", "application/json")
+                    .accept(ContentType.JSON)
+                .when()
+                    .get("/products/{id}", "5")
                 .then()
-                .status(HttpStatus.NOT_FOUND);
+                    .status(HttpStatus.NOT_FOUND);
     }
 
     @Test
@@ -88,14 +89,14 @@ class ProductControllerTest {
 
         MockMvcResponse response = RestAssuredMockMvc
                 .given()
-                .header("Content-Type", "application/json")
-                .and()
-                .body(requestBody.toString())
+                    .header("Content-Type", "application/json")
+                    .and()
+                    .body(requestBody.toString())
                 .when()
-                .post("/products")
+                    .post("/products")
                 .then()
-                .extract()
-                .response();
+                    .extract()
+                    .response();
 
         Assertions.assertEquals(201, response.statusCode());
         Assertions.assertEquals("SHIRT", response.jsonPath().getString("name"));
@@ -116,14 +117,14 @@ class ProductControllerTest {
 
         MockMvcResponse response = RestAssuredMockMvc
                 .given()
-                .header("Content-Type", "application/json")
-                .and()
-                .body(requestBody.toString())
+                    .header("Content-Type", "application/json")
+                    .and()
+                    .body(requestBody.toString())
                 .when()
-                .post("/products")
+                    .post("/products")
                 .then()
-                .extract()
-                .response();
+                    .extract()
+                    .response();
 
         Assertions.assertEquals(400, response.statusCode());
     }
@@ -135,11 +136,11 @@ class ProductControllerTest {
 
         RestAssuredMockMvc
                 .given()
-                .header("Content-Type", "application/json")
+                    .header("Content-Type", "application/json")
                 .when()
-                .delete("/products/{id}", 1L)
+                    .delete("/products/{id}", "1")
                 .then()
-                .status(HttpStatus.OK);
+                    .status(HttpStatus.OK);
     }
 
     @Test
@@ -148,11 +149,11 @@ class ProductControllerTest {
 
         RestAssuredMockMvc
                 .given()
-                .header("Content-Type", "application/json")
+                    .header("Content-Type", "application/json")
                 .when()
-                .delete("/products/{id}", 5L)
+                    .delete("/products/{id}", "5")
                 .then()
-                .status(HttpStatus.NOT_FOUND);
+                    .status(HttpStatus.NOT_FOUND);
 
     }
 
@@ -170,14 +171,12 @@ class ProductControllerTest {
 
         RestAssuredMockMvc
                 .given()
-                .header("Content-Type", "application/json")
-                .body(requestBody.toString())
+                    .header("Content-Type", "application/json")
+                    .body(requestBody.toString())
                 .when()
-                .put("/products/{id}", 1L)
+                    .put("/products/{id}", "1")
                 .then()
-                .status(HttpStatus.NOT_FOUND);
-
-
+                    .status(HttpStatus.NOT_FOUND);
     }
 
     @Test
@@ -197,14 +196,14 @@ class ProductControllerTest {
 
         MockMvcResponse response = RestAssuredMockMvc
                 .given()
-                .header("Content-Type", "application/json")
-                .and()
-                .body(requestBody.toString())
+                    .header("Content-Type", "application/json")
+                    .and()
+                    .body(requestBody.toString())
                 .when()
-                .put("/products/{id}", 1L)
+                    .put("/products/{id}", "1")
                 .then()
-                .extract()
-                .response();
+                    .extract()
+                    .response();
 
         Assertions.assertEquals(200, response.statusCode());
         Assertions.assertEquals("TENNIS", response.jsonPath().getString("name"));
